@@ -12,3 +12,10 @@ LLMやBERTなどの自然言語処理技術を使ったプロジェクトの練�
 4. あらすじより長い文章を入力できるようにする。
 5. gradioなどで公開する。
 6. Google Cloudにデプロイ。
+
+## 環境
+- M1 MacBook Air(2020)
+- Python 3.11.9
+- llama-cpp-python
+    - コマンドラインツールだけでなく、XCodeのアプリ自体もインストール
+    - brewでcmakeをインストール
