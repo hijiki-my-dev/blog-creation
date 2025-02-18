@@ -33,5 +33,6 @@ LLMやBERTなどの自然言語処理技術を使ったプロジェクトの練�
 ├── practice
 └── src
     ├── collect # データセットを作成する
-    └── data
+    ├── data
+    └── app.py
 ```
