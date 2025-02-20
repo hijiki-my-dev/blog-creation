@@ -1,3 +1,14 @@
+---
+title: blog_creation
+emoji: ✒️
+colorFrom: green
+colorTo: blue
+sdk: streamlit
+sdk_version: "1.42.1"
+app_file: app.py
+pinned: false
+---
+
 # LLM等を使用した自動ブログ記事生成
 
 ## 目的
