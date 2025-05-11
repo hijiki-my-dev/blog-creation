@@ -10,7 +10,7 @@ def summarize_article(input_text):
     model_path = hf_hub_download(repo_id=repo_id, filename=filename)
 
     # モデルの読み込み
-    llm = Llama(model_path=model_path, n_ctx=4096, n_gpu_layers=-1)
+    llm = Llama(model_path=model_path, n_ctx=4096, n_gpu_layers=-1, verbose=False)
     prompt = f"以下のテキストを日本語で約400字程度に要約してください。特に固有名詞や専門用語は正確に含めてください。テキスト: {input_text} 要約: "
     response = llm(prompt, max_tokens=MAX_OUTPUT_TOKENS)
     return response["choices"][0]["text"]
@@ -36,9 +36,7 @@ if submit_button:
     summary = summarize_article(input_text)
 
     st.markdown("## 生成された感想記事（デモ）")
-    st.info(f"""
-    {summary["summary_text"][0]}
-    """)
+    st.info(summary)
 
 # フッター
 st.markdown("---")
