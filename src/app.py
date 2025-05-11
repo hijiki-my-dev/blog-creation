@@ -25,6 +25,12 @@ st.set_page_config(
 # アプリのタイトル
 st.title("記事要約（デモ）")
 st.subheader("入力を元に要約を生成します")
+st.markdown(
+    """
+    このアプリは、指定されたテキストを要約するためのデモです。以下の入力フォームに記事内容を入力してください。
+    CPUで動作するため時間がかかり、精度も低いです。
+    """
+)
 
 # 入力フォーム
 with st.form("input_form"):
@@ -35,7 +41,7 @@ with st.form("input_form"):
 if submit_button:
     summary = summarize_article(input_text)
 
-    st.markdown("## 生成された感想記事（デモ）")
+    st.markdown("## 生成された要約（デモ）")
     st.info(summary)
 
 # フッター
