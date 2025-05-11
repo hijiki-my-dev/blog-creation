@@ -1,32 +1,19 @@
-from optimum.onnxruntime import ORTModelForSeq2SeqLM
+from huggingface_hub import hf_hub_download
+from llama_cpp import Llama
 import streamlit as st
-import torch
-from transformers import AutoTokenizer, pipeline
 
-torch.classes.__path__ = []
+MAX_OUTPUT_TOKENS = 512
 
 def summarize_article(input_text):
-    MODEL_PATH = "model/mt5_onnx"
+    repo_id = "SakanaAI/TinySwallow-1.5B-Instruct-GGUF"
+    filename = "tinyswallow-1.5b-instruct-q5_k_m.gguf"
+    model_path = hf_hub_download(repo_id=repo_id, filename=filename)
 
-    # ONNXモデルの読み込み
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
-    model = ORTModelForSeq2SeqLM.from_pretrained(MODEL_PATH, local_files_only=True)
-
-    summarizer = pipeline(
-        "summarization",
-        model=model,
-        tokenizer=tokenizer
-    )
-    return summarizer(
-        input_text,
-        max_length=600,
-        min_length=200,
-        do_sample=True,
-        temperature=0.5,
-        num_beams=4,
-        early_stopping=True
-    )
-
+    # モデルの読み込み
+    llm = Llama(model_path=model_path, n_ctx=4096, n_gpu_layers=-1)
+    prompt = f"以下のテキストを日本語で約400字程度に要約してください。特に固有名詞や専門用語は正確に含めてください。テキスト: {input_text} 要約: "
+    response = llm(prompt, max_tokens=MAX_OUTPUT_TOKENS)
+    return response["choices"][0]["text"]
 
 # ページ設定
 st.set_page_config(
@@ -41,19 +28,11 @@ st.subheader("入力を元に要約を生成します")
 
 # 入力フォーム
 with st.form("input_form"):
-    # novel_title = st.text_input("小説のタイトル", placeholder="例：人間失格")
     input_text = st.text_area("記事内容", height=200, placeholder="例：主人公の葉蔵は自分を「人間失格」だと考えている...")
     submit_button = st.form_submit_button("生成")
 
 # 送信ボタンが押されたら結果を表示
 if submit_button:
-    # st.markdown("## 入力内容")
-    # # st.write(f"**タイトル:** {novel_title}")
-    # st.write("**あらすじや感想メモ:**")
-    # st.write(summary)
-
-    # st.markdown("---")
-
     summary = summarize_article(input_text)
 
     st.markdown("## 生成された感想記事（デモ）")

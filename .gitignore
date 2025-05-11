@@ -1,5 +1,8 @@
+fig_memo/
 models/
+practice/
 src/data/
+src/model/
 tmp/
 
 # Byte-compiled / optimized / DLL files
